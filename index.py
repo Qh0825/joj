@@ -18,7 +18,7 @@ def db():
 
 @app.route("/tcyang", methods=["GET", "POST"])
 def tcyang():
-     tz = timezone(timedelta(hours=+8))
+    tz = timezone(timedelta(hours=+8))
     now = str(datetime.now(tz))
     user = request.values.get("nick")
     return render_template("tcyang.html", datetime=now, name=user)
