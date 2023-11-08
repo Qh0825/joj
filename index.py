@@ -63,12 +63,19 @@ def reading():
     @app.route("/search", methods=["GET", "POST"])
 def search():
     if request.method == "POST":
-        user = request.form["user"]
-        pwd = request.form["keyword"]
+       keyword = request.form["keyword"]
         result = "您輸入的關鍵字是："  + keyword
-        return result
-    else:
-        return render_template("search.html")
+        
+        Result = "<br>"
+        db = firestore.client()
+        collection_ref = db.collection("人選之人─造浪者")
+        docs = collection_ref.order_by("birth")get()
+        for doc in docs:
+            if keyword in x["name"]
+               Result += "演員：" + x["name"] + ",在戯中扮演"+ x["role"] + ",出生於" + str(x["birth"]) + "<br>"
+            return result
+        else:
+            return render_template("search.html")
 
 #if __name__ == "__main__":
     #app.run()
