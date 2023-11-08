@@ -64,7 +64,7 @@ def reading():
 def search():
     if request.method == "POST":
        keyword = request.form["keyword"]
-        result = "您輸入的關鍵字是："  + keyword
+        Result = "您輸入的關鍵字是："  + keyword
 
        Result += "<br>"
        db = firestore.client()
