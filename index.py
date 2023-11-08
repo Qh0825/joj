@@ -66,7 +66,7 @@ def search():
        keyword = request.form["keyword"]
         result = "您輸入的關鍵字是："  + keyword
 
-       Result = "<br>"
+       Result += "<br>"
        db = firestore.client()
        collection_ref = db.collection("人選之人─造浪者")
        docs = collection_ref.order_by("birth")get()
