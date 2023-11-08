@@ -10,12 +10,13 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    X = "作者:蔡棨航 20231108<br>"
+    X = "作者:蔡棨航 20231108b<br>"
     X += "<a href=/db>課程網頁</a><br>"
     X += "<a href=/tcyang?nick=tcyang>個人介紹及系統時間</a><br>"
     X += "<a href=/account>表單傳值</a><br>"
     X += "<a href=/read>Firestore</a><br>"
     X += "<a href=/reading>人選之人─造浪者</a><br>"
+    X += "<a href=/search>演員關鍵字查詢</a><br>"
     return X
 
 @app.route("/db")
@@ -37,7 +38,7 @@ def account():
         result = "您輸入的帳號是：" + user + "; 密碼為：" + pwd 
         return result
     else:
-        return render_template("account.html")
+        return render_template("演員")
 
 @app.route("/read")
 def read():
@@ -58,6 +59,16 @@ def reading():
     for doc in docs:
         Result += "文件內容：{}".format(doc.to_dict()) + "<br>"
     return Result
+
+    @app.route("/search", methods=["GET", "POST"])
+def account():
+    if request.method == "POST":
+        user = request.form["user"]
+        pwd = request.form["pwd"]
+        result = "您輸入的關鍵字是："  + keyword
+        return result
+    else:
+        return render_template("search.html")
 
 #if __name__ == "__main__":
     #app.run()
