@@ -61,10 +61,10 @@ def reading():
     return Result
 
     @app.route("/search", methods=["GET", "POST"])
-def account():
+def search():
     if request.method == "POST":
         user = request.form["user"]
-        pwd = request.form["pwd"]
+        pwd = request.form["keyword"]
         result = "您輸入的關鍵字是："  + keyword
         return result
     else:
