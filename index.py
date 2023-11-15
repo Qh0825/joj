@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    X = "作者:蔡棨航 20231108b<br>"
+    X = "作者:蔡棨航 20231115b<br>"
     X += "<a href=/db>課程網頁</a><br>"
     X += "<a href=/tcyang?nick=tcyang>個人介紹及系統時間</a><br>"
     X += "<a href=/account>表單傳值</a><br>"
@@ -64,19 +64,19 @@ def reading():
 def search():
     if request.method == "POST":
        keyword = request.form["keyword"]
-        Result = "您輸入的關鍵字是："  + keyword
+       Result = "您輸入的關鍵字是:" + keyword
 
        Result += "<br>"
        db = firestore.client()
        collection_ref = db.collection("人選之人─造浪者")
-       docs = collection_ref.order_by("birth")get()
+       docs = collection_ref.order_by("birth").get()
        for doc in docs:
             x = doc.to_dict()
-            if keyword in x["name"]
+            if keyword in x["name"]:
                Result += "演員：" + x["name"] + ",在戯中扮演"+ x["role"] + ",出生於" + str(x["birth"]) + "<br>"
             return Result
-        else:
+    else:
             return render_template("search.html")
 
-#if __name__ == "__main__":
-    #app.run()
+if __name__ == "__main__":
+    app.run(debug=True)
