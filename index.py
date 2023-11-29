@@ -64,32 +64,31 @@ def reading():
 @app.route("/search", methods=["GET", "POST"])
 def search():
     if request.method == "POST":
-       keyword = request.form["keyword"]
-       Result = "您輸入的關鍵字是:" + keyword
-
-       Result += "<br>"
-       db = firestore.client()
-       collection_ref = db.collection("人選之人─造浪者")
-       docs = collection_ref.order_by("birth").get()
-       for doc in docs:
+        keyword = request.form["keyword"]
+        Result = "您輸入的關鍵字是:" + keyword
+        Result += "<br>"
+        db = firestore.client()
+        collection_ref = db.collection("人選之人─造浪者")
+        docs = collection_ref.order_by("birth").get()
+        for doc in docs:
             x = doc.to_dict()
             if keyword in x["name"]:
-               Result += "演員：" + x["name"] + ",在戯中扮演"+ x["role"] + ",出生於" + str(x["birth"]) + "<br>"
-            return Result
+                Result += "演員：" + x["name"] + ",在戯中扮演"+ x["role"] + ",出生於" + str(x["birth"]) + "<br>"
+        return Result
 
 @app.route("/books")
 def books():
-       Result = ""
-       db = firestore.client()
-       collection_ref = db.collection("圖書精選")
-       docs = collection_ref.order_by("anniversary").get()
-       for doc in docs:
-            x = doc.to_dict()
-            Result += "書名：<+a href=" + x["url"] + ">" + x["title"] + "</a><br>"
-            Result += "作者：" + x["author"] + "<br>"
-            Result += str(x["anniversary"]) + "周年紀念版" + "<br>"
-            Result += "<img src=" +["cover"] + "></img><br><br>"
-        return Result
+    Result = ""
+    db = firestore.client()
+    collection_ref = db.collection("圖書精選")
+    docs = collection_ref.order_by("anniversary").get()
+    for doc in docs:
+        x = doc.to_dict()
+        Result += "書名：<a href=" + x["url"] + ">" + x["title"] + "</a><br>"
+        Result += "作者：" + x["author"] + "<br>"
+        Result += str(x["anniversary"]) + "周年紀念版" + "<br>"
+        Result += "<img src=" + x["cover"] + "></img><br><br>"
+    return Result
    
 if __name__ == "__main__":
     app.run(debug=True)
