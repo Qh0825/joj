@@ -16,6 +16,7 @@ def index():
     X += "<a href=/account>表單傳值</a><br>"
     X += "<a href=/read>Firestore</a><br>"
     X += "<a href=/reading>人選之人─造浪者</a><br>"
+    X += "<a href=/books>圖書精選</a><br>"
     X += "<a href=/search>演員關鍵字查詢</a><br>"
     return X
 
@@ -75,7 +76,8 @@ def search():
             if keyword in x["name"]:
                Result += "演員：" + x["name"] + ",在戯中扮演"+ x["role"] + ",出生於" + str(x["birth"]) + "<br>"
             return Result
- @app.route("/books")
+
+@app.route("/books")
 def books():
        Result = ""
        db = firestore.client()
