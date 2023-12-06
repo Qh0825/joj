@@ -1,4 +1,4 @@
-import requests
+import requests, json
 from bs4 import BeautifulSoup
 
 import firebase_admin
@@ -22,6 +22,7 @@ def index():
     X += "<a href=/books>圖書精選</a><br>"
     X += "<a href=/search>演員關鍵字查詢</a><br>"
     X += "<br><a href=/movie>讀取開眼電影即將上映影片，寫入Firestore</a><br>"
+    X += "<a href=/searchroad>根據路名關鍵字查詢臺中市十大肇事路段口</a><br>"
     return X
 
 @app.route("/db")
@@ -125,5 +126,24 @@ def movie():
         doc_ref.set(doc)    
     return "近期上映電影已爬蟲及存檔完畢，網站最近更新日期為：" + lastUpdate 
    
+@app.route("/searchroad",methods=["POST","GET"])
+def searchroad():
+    if request.method == "POST":
+        Road = request.form["Road"]
+        Result = "請輸入欲查詢的路名：" + Road
+        url = "https://datacenter.taichung.gov.tw/swagger/OpenData/db36e286-1d2b-4784-99b9-3b0790dd9652"
+        Data = requests.get(url)
+        Data.encoding = "utf-8"
+        JsonData = json.loads(Data.text)
+
+        for item in JsonData:
+            if Road in item["路口名稱"]:
+                Result += item["路口名稱"] + "：發生" + item["總件數"] + "件，主因是"+ item["主要肇因"] + "<br>"
+            if Result == "":
+                Result = "抱歉, 查無相關資料！"
+        return Result
+    else:
+        return render_template("datasearch.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
